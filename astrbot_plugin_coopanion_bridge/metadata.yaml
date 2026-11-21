@@ -1,0 +1,6 @@
+name: coopanion_bridge
+display_name: Coopanion 桥
+desc: 让 Coopanion 桌宠走 AstrBot 的完整回复链路（注入 QQ 私聊事件、拦截回复不外发）
+version: 1.1.0
+author: local
+repo: https://github.com/<你的GitHub用户名>/coopanion-astrbot-bridge

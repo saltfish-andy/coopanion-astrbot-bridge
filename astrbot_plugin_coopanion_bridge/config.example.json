@@ -1,0 +1,7 @@
+{
+  "self_id": "把这里换成机器人的QQ号",
+  "owner_id": "把这里换成你自己的QQ号",
+  "owner_nick": "你的昵称",
+  "port": 8899,
+  "timeout": 180
+}

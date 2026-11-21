@@ -1,0 +1,18 @@
+# 运行时生成的
+logs/
+*.log
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# 本地配置：里面是你的 QQ 号，绝对别提交
+astrbot_plugin_coopanion_bridge/config.json
+.env
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
