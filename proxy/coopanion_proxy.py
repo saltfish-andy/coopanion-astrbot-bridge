@@ -2,7 +2,7 @@
 
 它不生成任何文字，只做四件事：
 
-  1. 从请求里把「人真正说的话」找出来（在 role=tool 的 [typed] 里，不在 role=user）
+  1. 从请求里把「人真正说的话」找出来（在 role=tool 的 [typed] 或 [voice] 里，不在 role=user）
   2. 内部事件一律回空，不打扰模型
   3. 转给 AstrBot 桥，等回复
   4. 把回复包成 pet_say 工具调用——桌宠只认这个，纯文本它不显示
@@ -44,9 +44,13 @@ def log(message: str) -> None:
     print(message, flush=True)
 
 
-# Co 把人打的字包在 tool 结果里，形如：
+# Co 把人打的字和说出来的话都包在 tool 结果里，形如：
 #   [1 new event]\n[01-01 09:30] [typed] 用户:你吃了什么
-_TYPED = re.compile(r"\[typed\]\s*[^:：\n]{1,40}[:：]\s*(.+)")
+#   [1 new event]\n[01-01 09:30] [voice] 用户:你吃了什么
+# 语音是本地 ASR 识别出来的文字，标记和打字不同。只带录音的那种
+# （[voice] 用户说了一段话,内容在下面的录音里）没有冒号，匹配不上，
+# 会当成内部事件跳过——代理不做多模态，那种确实处理不了。
+_SAID = re.compile(r"\[(?:typed|voice)\]\s*[^:：\n]{1,40}[:：]\s*(.+)")
 
 
 def _content_text(content) -> str:
@@ -70,17 +74,17 @@ def _is_system(text: str) -> bool:
 
 
 def _from_tool(text: str) -> str:
-    """从 tool 结果里取最后一条 [typed] 后面的话。"""
+    """从 tool 结果里取最后一条 [typed] 或 [voice] 后面的话。"""
     best = ""
     for line in text.splitlines():
-        match = _TYPED.search(line)
+        match = _SAID.search(line)
         if match:
             best = match.group(1).strip()
     return best
 
 
 def _from_messages(messages) -> str:
-    # 1) 优先从 tool 结果的 [typed] 里取（Co 把用户输入放这儿）
+    # 1) 优先从 tool 结果的 [typed] / [voice] 里取（Co 把用户输入放这儿）
     for message in reversed(messages):
         if not isinstance(message, dict) or message.get("role") != "tool":
             continue

@@ -1,5 +1,12 @@
 # 更新记录
 
+## 1.2.0
+
+- 支持语音输入：Coopanion 的 ASR 结果用 `[voice]` 标记，代理原来只认 `[typed]`，说话会被当成内部事件丢掉
+- 正则合并成 `_SAID`，同时匹配 `[typed]` 和 `[voice]`，冒号后带不带空格都能取
+- 只有录音没有文字的那种（`asr.recording.transcript` 关掉时）仍然跳过，代理不做多模态
+- 文档补上语音链路的说明和这个限制
+
 ## 1.1.0
 
 - 优化发送拦截：在 `on_decorating_result` 里再挂一次 `event.send`，修掉 QQ 收到桌宠回复的问题（AstrBot 会在流水线中途重置它）

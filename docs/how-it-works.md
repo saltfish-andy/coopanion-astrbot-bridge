@@ -34,7 +34,7 @@
     {"role": "assistant", "content": null, "tool_calls": [
       {"id": "evf_70", "type": "function", "function": {"name": "external_event_frame", "arguments": "{}"}}
     ]},
-    {"role": "tool", "content": "[3 new events]\n[09:00] [touch] 用户把你拎起来甩了出去\n[09:30] [typed] 用户:在吗"}
+    {"role": "tool", "content": "[3 new events]\n[09:00] [touch] 用户把你拎起来甩了出去\n[09:30] [typed] 用户:在吗\n[09:31] [voice] 用户:你在干嘛"}
   ]
 }
 ```
